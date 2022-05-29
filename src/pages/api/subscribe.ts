@@ -26,21 +26,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     let customerId = user.data.stripe_customer_id;
 
-if (!customerId) {
-        const stripeCustomer = await stripe.customers.create({
-          email: session.user.email,
-          // metadata
-        });
+    if (!customerId) {
+      const stripeCustomer = await stripe.customers.create({
+        email: session.user.email,
+        // metadata
+      });
 
-        await fauna.query(
-          query.Update(query.Ref(query.Collection("users"), user.ref.id), {
-            data: { stripe_customer_id: stripeCustomer.id },
-          })
-        );
+      await fauna.query(
+        query.Update(query.Ref(query.Collection("users"), user.ref.id), {
+          data: { stripe_customer_id: stripeCustomer.id },
+        })
+      );
 
-        customerId = stripeCustomer.id;
+      customerId = stripeCustomer.id;
     }
-
 
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -57,7 +56,7 @@ if (!customerId) {
       success_url: process.env.STRIPE_SUCCESS_URL,
       cancel_url: process.env.STRIPE_CANCEL_URL,
     });
-    
+
     return res.status(200).json({ sessionId: stripeCheckoutSession.id });
   } else {
     res.setHeader("Allow", "POST");
