@@ -18,14 +18,14 @@ interface PostPreviewProps {
 }
 
 export default function PostPreview({ post }: PostPreviewProps) {
-const { data: session } = useSession();
-const router = useRouter();
+  const { data: session } = useSession();
+  const router = useRouter();
 
-useEffect(() => {
+  useEffect(() => {
     if (session?.activeSubscription) {
-        router.push(`/posts/${post.slug}`)
+      router.push(`/posts/${post.slug}`);
     }
-}, [session]);
+  }, [session]);
 
   return (
     <>
@@ -84,6 +84,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { post },
-    redirect: 60 * 30 // = 30 minutes;
+    redirect: 60 * 30, // = 30 minutes;
   };
 };

@@ -18,34 +18,31 @@ export default NextAuth({
           query.Get(
             query.Intersection([
               query.Match(
-                query.Index('subscription_by_user_ref'),
+                query.Index("subscription_by_user_ref"),
                 query.Select(
                   "ref",
                   query.Get(
                     query.Match(
-                      query.Index('user_by_email'),
+                      query.Index("user_by_email"),
                       query.Casefold(session.user.email)
                     )
                   )
                 )
               ),
-              query.Match(
-                query.Index('subscription_by_status'),
-                "active"
-              )
+              query.Match(query.Index("subscription_by_status"), "active"),
             ])
           )
-        )
-  
-        return { 
+        );
+
+        return {
           ...session,
-          activeSubscription: userActiveSubscription
-        }
+          activeSubscription: userActiveSubscription,
+        };
       } catch {
-        return { 
+        return {
           ...session,
-          activeSubscription: null
-        }
+          activeSubscription: null,
+        };
       }
     },
     async signIn({ user, account, profile, credentials }) {
