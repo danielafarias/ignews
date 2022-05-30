@@ -26,6 +26,14 @@
         font-size: 1.125rem;
         color: var(--gray-100);
 
+        a {
+            color: var(--yellow-500);
+
+            &:hover {
+                color: var(--cyan-500);
+            }
+        }
+
         p, ul {
             margin: 1.5rem 0;
         }
