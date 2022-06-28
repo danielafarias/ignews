@@ -12,7 +12,7 @@ interface PostPreviewProps {
   post: {
     slug: string;
     title: string;
-    abstract: string;
+    content: string;
     updatedAt: string;
   };
 }
@@ -37,7 +37,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
           <h1 className={styles.title}>{post.title}</h1>
           <time className={styles.updatedAt}>{post.updatedAt}</time>
           <div
-            dangerouslySetInnerHTML={{ __html: post.abstract }}
+            dangerouslySetInnerHTML={{ __html: post.content }}
             className={`${styles.content} ${styles.previewContent}`}
           />
 
@@ -71,7 +71,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    abstract: RichText.asHtml(response.data.content.splice(0, 3)),
+    content: RichText.asHtml(response.data.content.splice(0, 3)),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
       "pt-BR",
       {

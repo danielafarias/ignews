@@ -6,7 +6,7 @@ import { getPrismicClient } from "../../services/prismic";
 const post = {
   slug: "fake-slug",
   title: "fake-title",
-  content: "fake-content",
+  content: "<p>fake-content</p>",
   updatedAt: "09 de setembro de 2020",
 };
 
@@ -63,7 +63,7 @@ describe("Post page", () => {
           content: [
             {
               type: "paragraph",
-              text: "fake-abstract",
+              text: "fake-content",
             },
           ],
         },
@@ -79,12 +79,10 @@ describe("Post page", () => {
 
     render(<Post post={post} />);
 
-    expect(response).toEqual(
-      expect.objectContaining({
-        props: {
-          posts: post,
-        },
-      })
-    );
+    expect(response).toEqual({
+      props: {
+        post: post,
+      },
+    });
   });
 });
